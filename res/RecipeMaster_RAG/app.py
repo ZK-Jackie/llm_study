@@ -12,12 +12,10 @@ import torch
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 def init():
-    model_dir = snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
-                                  , cache_dir='./', revision='v1.0.3')
-    os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-    # 下载模型
-    os.system('huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
-
+    # 下载openxlab的自定义的个人模型
+    from openxlab.model import download
+    download(model_repo='ZK-Jackie/RecipeMaster',
+             model_name='RecipeMaster', output='/home/xlab-app-center/.cache/model')
 
 def load_chain():
     # 加载问答链
@@ -33,9 +31,9 @@ def load_chain():
         embedding_function=embeddings
     )
 
-    llm = InternLM_LLM(model_path = "Shanghai_AI_Laboratory/internlm-chat-7b")
+    llm = InternLM_LLM(model_path = "/home/xlab-app-center/.cache/model/RecipeMaster")
 
-    template = """使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
+    template = """你是一个帮助用户了解如何做菜的小助手，要使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
     问题: {question}
     可参考的上下文：
     ···
@@ -85,8 +83,8 @@ block = gr.Blocks()
 with block as demo:
     with gr.Row(equal_height=True):   
         with gr.Column(scale=15):
-            gr.Markdown("""<h1><center>InternLM</center></h1>
-                <center>书生浦语</center>
+            gr.Markdown("""<h1><center>RecipeMaster-v1</center></h1>
+                <center>菜谱大师（练习版）</center>
                 """)
         # gr.Image(value=LOGO_PATH, scale=1, min_width=10,show_label=False, show_download_button=False)
 
