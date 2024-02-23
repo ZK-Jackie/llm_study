@@ -1,0 +1,93 @@
+Collections:
+- Name: "InternLM-chat-7b"
+  License: "Apache-2.0"
+  Framework: "[]"
+  Paper: {}
+  Code:
+    URL: "https://github.com/InternLM/InternLM"
+Models:
+- Name: "config.json"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "config.json"
+- Name: "configuration_internlm.py"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "configuration_internlm.py"
+- Name: "generation_config.json"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "generation_config.json"
+- Name: "modeling_internlm.py"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "modeling_internlm.py"
+- Name: "pytorch_model-00001-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00001-of-00008.bin"
+- Name: "pytorch_model-00002-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00002-of-00008.bin"
+- Name: "pytorch_model-00003-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00003-of-00008.bin"
+- Name: "pytorch_model-00004-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00004-of-00008.bin"
+- Name: "pytorch_model-00005-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00005-of-00008.bin"
+- Name: "pytorch_model-00006-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00006-of-00008.bin"
+- Name: "pytorch_model-00007-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00007-of-00008.bin"
+- Name: "pytorch_model-00008-of-00008.bin"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model-00008-of-00008.bin"
+- Name: "pytorch_model.bin.index.json"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "pytorch_model.bin.index.json"
+- Name: "special_tokens_map.json"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "special_tokens_map.json"
+- Name: "tokenization_internlm.py"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "tokenization_internlm.py"
+- Name: "tokenizer.model"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "tokenizer.model"
+- Name: "tokenizer_config.json"
+  Results:
+  - Task: "Question Answering"
+    Dataset: "none"
+  Weights: "tokenizer_config.json"
