@@ -1,5 +1,6 @@
 __import__('pysqlite3')
 import sys
+
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # 导入必要的库
@@ -8,15 +9,24 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
-import torch
-from modelscope import snapshot_download, AutoModel, AutoTokenizer
+from openxlab.model import download
 import os
+
+
 def init():
-    model_dir = snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
-                                  , cache_dir='res/RecipeMaster_RAG/', revision='v1.0.3')
+    # 设置环境变量
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-    # 下载模型
-    os.system('huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+    # 下载sentence transformer
+    if not os.path.exists('sentence-transformer'):
+        print("开始下载sentence-transformer")
+        os.system(
+            'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+    # 下载openxlab的自定义的个人模型
+    if not os.path.exists('/home/.cache/model/RecipeMaster'):
+        print("开始下载RecipiMaster模型")
+        download(model_repo='ZK-Jackie/RecipeMaster', output='RecipeMaster')
+    else:
+        os.system('cp -r /home/.cache/model/RecipeMaster/ .')
 
 
 def load_chain():
@@ -33,9 +43,9 @@ def load_chain():
         embedding_function=embeddings
     )
 
-    llm = InternLM_LLM(model_path = "Shanghai_AI_Laboratory/internlm-chat-7b")
+    llm = InternLM_LLM(model_path="./RecipeMaster")
 
-    template = """使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
+    template = """你是一个帮助用户了解如何做菜的小助手，要使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
     问题: {question}
     可参考的上下文：
     ···
@@ -44,24 +54,26 @@ def load_chain():
     如果给定的上下文无法让你做出回答，请回答你不知道。
     有用的回答:"""
 
-    QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context","question"],
-                                    template=template)
+    QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context", "question"],
+                                     template=template)
 
     # 运行 chain
     from langchain.chains import RetrievalQA
 
     qa_chain = RetrievalQA.from_chain_type(llm,
-                                        retriever=vectordb.as_retriever(),
-                                        return_source_documents=True,
-                                        chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
-    
+                                           retriever=vectordb.as_retriever(),
+                                           return_source_documents=True,
+                                           chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
+
     return qa_chain
+
 
 class Model_center():
     """
-    存储问答 Chain 的对象 
+    存储问答 Chain 的对象
     """
     init()
+
     def __init__(self):
         self.chain = load_chain()
 
@@ -83,10 +95,10 @@ model_center = Model_center()
 
 block = gr.Blocks()
 with block as demo:
-    with gr.Row(equal_height=True):   
+    with gr.Row(equal_height=True):
         with gr.Column(scale=15):
-            gr.Markdown("""<h1><center>InternLM</center></h1>
-                <center>书生浦语</center>
+            gr.Markdown("""<h1><center>RecipeMaster-v1</center></h1>
+                <center>菜谱大师（练习版）</center>
                 """)
         # gr.Image(value=LOGO_PATH, scale=1, min_width=10,show_label=False, show_download_button=False)
 
@@ -103,11 +115,11 @@ with block as demo:
                 # 创建一个清除按钮，用于清除聊天机器人组件的内容。
                 clear = gr.ClearButton(
                     components=[chatbot], value="Clear console")
-                
+
         # 设置按钮的点击事件。当点击时，调用上面定义的 qa_chain_self_answer 函数，并传入用户的消息和聊天历史记录，然后更新文本框和聊天机器人组件。
         db_wo_his_btn.click(model_center.qa_chain_self_answer, inputs=[
-                            msg, chatbot], outputs=[msg, chatbot])
-        
+            msg, chatbot], outputs=[msg, chatbot])
+
     gr.Markdown("""提醒：<br>
     1. 初始化数据库时间可能较长，请耐心等待。
     2. 使用中如果出现异常，将会在文本输入框进行展示，请不要惊慌。 <br>
