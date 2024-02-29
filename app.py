@@ -86,7 +86,8 @@ class Model_center:
         embedding_path = os.environ.get("EMBEDDING_MODEL_PATH")
         if not os.path.exists(embedding_path):
             print("开始下载sentence-transformer")
-            os.system(f'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir { embedding_path } ')
+            os.system(
+                f'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir {embedding_path} ')
 
         # 下载openxlab的自定义的个人模型
         llm_path = os.environ.get("MODEL_DIR")
@@ -94,7 +95,7 @@ class Model_center:
             print("开始下载InternLM-chat-7b模型")
             download(model_repo='OpenLMLab/InternLM-chat-7b', output='InternLM-chat-7b')
         else:
-            os.system(f'cp -r /home/xlab-app-center/.cache/model/InternLM-chat-7b/ { llm_path }')
+            os.system(f'cp -r /home/xlab-app-center/.cache/model/InternLM-chat-7b/ {llm_path}')
         # 构造函数，加载检索问答链
         self.qa_chain = load_qa_chain()
 
