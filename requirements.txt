@@ -1,6 +1,5 @@
 pysqlite3
 pysqlite3-binary
-sqlite3
 modelscope==1.9.5
 transformers==4.35.2
 streamlit==1.24.0
