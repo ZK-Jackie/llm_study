@@ -13,18 +13,16 @@ from langchain.chains import RetrievalQA
 import gradio as gr
 import pandas as pd
 import vector_db_utils as db
-from dotenv import load_dotenv, find_dotenv
 
-_ = load_dotenv(find_dotenv())
 
 
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
-    embeddings = HuggingFaceEmbeddings(model_name=os.environ.get("EMBEDDING_MODEL_PATH"))
+    embeddings = HuggingFaceEmbeddings(model_name='/home/xlab-app-center/AI_Note/sentence-transformer/')
 
     # 向量数据库持久化路径，加载数据库对象
-    persist_directory = os.environ.get("PERSIST_DIR")
+    persist_directory = '/home/xlab-app-center/AI_Note/data_base/vector_db/chroma/'
 
     # 加载数据库
     vectordb = Chroma(
@@ -34,7 +32,7 @@ def load_qa_chain():
 
     # 加载自定义 LLM
     llm = InternLM_LLM(
-        model_path=os.environ.get("MODEL_DIR")
+        model_path='/home/xlab-app-center/AI_Note/InternLM-chat-7b/'
     )
 
     # 定义一个 Prompt Template
@@ -83,14 +81,14 @@ class Model_center:
         # 设置环境变量
         os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
         # 下载sentence transformer
-        embedding_path = os.environ.get("EMBEDDING_MODEL_PATH")
+        embedding_path = '/home/xlab-app-center/AI_Note/sentence-transformer/'
         if not os.path.exists(embedding_path):
             print("开始下载sentence-transformer")
             os.system(
                 f'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir {embedding_path} ')
 
         # 下载openxlab的自定义的个人模型
-        llm_path = os.environ.get("MODEL_DIR")
+        llm_path = '/home/xlab-app-center/AI_Note/InternLM-chat-7b/'
         if not os.path.exists('/home/xlab-app-center/.cache/model/InternLM-chat-7b/'):
             print("开始下载InternLM-chat-7b模型")
             download(model_repo='OpenLMLab/InternLM-chat-7b', output='InternLM-chat-7b')
