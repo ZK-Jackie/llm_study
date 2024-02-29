@@ -5,7 +5,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-from openxlab.model import download
+from modelscope import snapshot_download
 import os
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
@@ -19,10 +19,10 @@ import vector_db_utils as db
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
-    embeddings = HuggingFaceEmbeddings(model_name='/home/xlab-app-center/AI_Note/sentence-transformer/')
+    embeddings = HuggingFaceEmbeddings(model_name='sentence-transformer')
 
     # 向量数据库持久化路径，加载数据库对象
-    persist_directory = '/home/xlab-app-center/AI_Note/data_base/vector_db/chroma/'
+    persist_directory = 'data_base/vector_db/chroma'
 
     # 加载数据库
     vectordb = Chroma(
@@ -32,7 +32,7 @@ def load_qa_chain():
 
     # 加载自定义 LLM
     llm = InternLM_LLM(
-        model_path='/home/xlab-app-center/AI_Note/InternLM-chat-7b/'
+        model_path='Shanghai_AI_Laboratory/internlm-chat-7b'
     )
 
     # 定义一个 Prompt Template
@@ -80,20 +80,12 @@ class Model_center:
         # 下载sentence-transformer模型
         # 设置环境变量
         os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-        # 下载sentence transformer
-        embedding_path = '/home/xlab-app-center/AI_Note/sentence-transformer/'
-        if not os.path.exists(embedding_path):
-            print("开始下载sentence-transformer")
-            os.system(
-                f'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir {embedding_path} ')
-
-        # 下载openxlab的自定义的个人模型
-        llm_path = '/home/xlab-app-center/AI_Note/InternLM-chat-7b/'
-        if not os.path.exists('/home/xlab-app-center/.cache/model/InternLM-chat-7b/'):
-            print("开始下载InternLM-chat-7b模型")
-            download(model_repo='OpenLMLab/InternLM-chat-7b', output='InternLM-chat-7b')
-        else:
-            os.system(f'cp -r /home/xlab-app-center/.cache/model/InternLM-chat-7b/ {llm_path}')
+        # 下载模型
+        os.system(
+            'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+        # 下载 internlm-chat-7b
+        snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
+                          , cache_dir='./', revision='v1.0.3')
         # 构造函数，加载检索问答链
         self.qa_chain = load_qa_chain()
 

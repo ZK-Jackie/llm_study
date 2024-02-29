@@ -82,8 +82,8 @@ def get_text(file):
 
 
 def file_to_chroma(path: str, is_folder: bool = False, chunk_size: int = 500, chunk_overlap: int = 150,
-                   embedding_model_path: str = '/home/xlab-app-center/AI_Note/sentence-transformer/',
-                   persist_directory: str = '/home/xlab-app-center/AI_Note/data_base/vector_db/chroma/'):
+                   embedding_model_path: str = 'sentence-transformer',
+                   persist_directory: str = 'data_base/vector_db/chroma'):
     pbar = tqdm(total=100)
     # 加载目标文件
     docs = []
