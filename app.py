@@ -17,6 +17,7 @@ from dotenv import load_dotenv, find_dotenv
 
 _ = load_dotenv(find_dotenv())
 
+
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
@@ -82,11 +83,12 @@ class Model_center:
         # 设置环境变量
         os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
         # 下载sentence transformer
-        if not os.path.exists('sentence-transformer'):
+        if not os.path.exists(os.environ.get("EMBEDDING_MODEL_PATH")):
             print("开始下载sentence-transformer")
+            path = os.environ.get("EMBEDDING_MODEL_PATH")
             os.system(
-                'huggingface-cli download --resume-download '
-                'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+                f'huggingface-cli download --resume-download '
+                'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir { path } ')
         # 下载openxlab的自定义的个人模型
         if not os.path.exists('/home/xlab-app-center/.cache/model/InternLM-chat-7b/'):
             print("开始下载InternLM-chat-7b模型")
