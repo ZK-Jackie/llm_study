@@ -79,8 +79,8 @@ def get_text(file):
 
 
 def file_to_chroma(path: str, is_folder: bool = False, chunk_size: int = 500, chunk_overlap: int = 150,
-                   embedding_model_path: str = "sentence-transformer",
-                   persist_directory: str = 'data_base/vector_db/chroma'):
+                   embedding_model_path: str = "/root/data/demo/sentence-transformer",
+                   persist_directory: str = '/root/data/demo/data_base/vector_db/chroma'):
     pbar = tqdm(total=100)
     # 加载目标文件
     docs = []

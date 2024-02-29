@@ -15,7 +15,7 @@ def load_qa_chain():
     embeddings = HuggingFaceEmbeddings(model_name="/root/data/model/sentence-transformer")
 
     # 向量数据库持久化路径，加载数据库对象
-    persist_directory = 'data_base/vector_db_chroma'
+    persist_directory = '/root/data/demo/data_base/vector_db/chroma'
 
     # 加载数据库
     vectordb = Chroma(
@@ -25,13 +25,13 @@ def load_qa_chain():
 
     # 加载自定义 LLM
     llm = InternLM_LLM(
-        model_path="/root/share/model_repos/internlm2-chat-7b",
-        model_type="InternLM2"
+        model_path="/root/share/model_repos/internlm2-chat-7b"
     )
 
     # 定义一个 Prompt Template
-    template = """使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答
-    案。最多使用三句话。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。
+    template = """以下上下文是用户的笔记，你要用这些上下文来回答最后的问题。
+    如果你不知道答案，或不能从这些上下文中获得符合问题的答案，就说你不知道，
+    不要试图编造答案。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。
     {context}
     问题: {question}
     有用的回答:"""
@@ -49,7 +49,7 @@ def load_qa_chain():
         return_source_documents=True,
         chain_type_kwargs={"prompt": qa_chain_prompt}
     )
-
+    print(qa_chain)
     return qa_chain
 
 
@@ -73,7 +73,9 @@ class Model_center:
             return "", chat_history
         try:
             # 将问答结果直接附加到 Gradio 的问答历史中，展示出来
-            chat_history.append((question, self.qa_chain({"query": question})["result"]))
+            message = self.qa_chain({"query": question})
+            chat_history.append((question, message["result"]))
+            print(message)
             return "", chat_history
         except Exception as e:
             return e, chat_history
@@ -98,9 +100,8 @@ def process_file(file):
         file_dict[basename] = 1
 
     gr.Info(f"正在加载文件{basename}")
-
     db.file_to_chroma(filename)
-
+    file_dict = {}
     gr.Info(f"{basename}加载成功")
     return
 
@@ -163,7 +164,3 @@ with block as demo:
 gr.close_all()
 # 直接启动
 demo.launch()
-"""
-端口转发：
-ssh -CNg -L 7860:127.0.0.1:7860 root@ssh.intern-ai.org.cn -p 36403
-"""
