@@ -8,7 +8,10 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from tqdm import tqdm
 import os
+from dotenv import load_dotenv, find_dotenv
 import CustomExceptions as ex
+
+_ = load_dotenv(find_dotenv())
 
 
 # 获取文件路径函数
@@ -79,8 +82,8 @@ def get_text(file):
 
 
 def file_to_chroma(path: str, is_folder: bool = False, chunk_size: int = 500, chunk_overlap: int = 150,
-                   embedding_model_path: str = "/root/data/demo/sentence-transformer",
-                   persist_directory: str = '/root/data/demo/data_base/vector_db/chroma'):
+                   embedding_model_path: str = os.environ.get("EMBEDDING_MODEL_PATH"),
+                   persist_directory: str = os.environ.get("PERSIST_DIR")):
     pbar = tqdm(total=100)
     # 加载目标文件
     docs = []

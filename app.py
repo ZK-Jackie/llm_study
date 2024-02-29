@@ -1,5 +1,11 @@
+__import__('pysqlite3')
+import sys
+
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+from openxlab.model import download
 import os
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
@@ -7,15 +13,17 @@ from langchain.chains import RetrievalQA
 import gradio as gr
 import pandas as pd
 import vector_db_utils as db
+from dotenv import load_dotenv, find_dotenv
 
+_ = load_dotenv(find_dotenv())
 
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
-    embeddings = HuggingFaceEmbeddings(model_name="/root/data/model/sentence-transformer")
+    embeddings = HuggingFaceEmbeddings(model_name=os.environ.get("EMBEDDING_MODEL_PATH"))
 
     # 向量数据库持久化路径，加载数据库对象
-    persist_directory = '/root/data/demo/data_base/vector_db/chroma'
+    persist_directory = os.environ.get("PERSIST_DIR")
 
     # 加载数据库
     vectordb = Chroma(
@@ -25,7 +33,7 @@ def load_qa_chain():
 
     # 加载自定义 LLM
     llm = InternLM_LLM(
-        model_path="/root/share/model_repos/internlm2-chat-7b"
+        model_path=os.environ.get("MODEL_DIR")
     )
 
     # 定义一个 Prompt Template
@@ -70,6 +78,21 @@ class Model_center:
     qa_chain: RetrievalQA = None
 
     def __init__(self):
+        # 下载sentence-transformer模型
+        # 设置环境变量
+        os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+        # 下载sentence transformer
+        if not os.path.exists('sentence-transformer'):
+            print("开始下载sentence-transformer")
+            os.system(
+                'huggingface-cli download --resume-download '
+                'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+        # 下载openxlab的自定义的个人模型
+        if not os.path.exists('/home/xlab-app-center/.cache/model/InternLM-chat-7b/'):
+            print("开始下载InternLM-chat-7b模型")
+            download(model_repo='OpenLMLab/InternLM-chat-7b', output='InternLM-chat-7b')
+        else:
+            os.system('cp -r /home/xlab-app-center/.cache/model/InternLM-chat-7b/ .')
         # 构造函数，加载检索问答链
         self.qa_chain = load_qa_chain()
 
@@ -138,7 +161,7 @@ with block as demo:
     with gr.Row():
         with gr.Column(scale=4):
             # 创建一个聊天机器人对象
-            chatbot = gr.Chatbot(height=450, show_copy_button=True)
+            chatbot = gr.Chatbot(height=600, show_copy_button=True)
             # 创建一个文本框组件，用于输入 prompt。
             msg = gr.Textbox(label="Prompt/问题")
 

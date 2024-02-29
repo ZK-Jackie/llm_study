@@ -30,36 +30,9 @@ class InternLM_LLM(LLM):
         """
 
         messages = [(system_prompt, '')]
-        # # 调用本地model，传入：tokenizer，用户输入和历史记录（历史记录功能待完善）
+        # 调用本地model，传入：tokenizer，用户输入和历史记录（历史记录功能待完善）
         response, history = self.model.chat(self.tokenizer, prompt, history=messages)
-        # 指定网址
-        # url = "http://0.0.0.0:23333/v1/chat/completion"
-        # # 设置 POST 访问
-        # payload = json.dumps({
-        #         "model": "internlm-chat-7b",
-        #         "messages": prompt,
-        #         "temperature": 0.7,
-        #         "top_p": 1,
-        #         "n": 1,
-        #         "max_tokens": 512,
-        #         "stop": 'false',
-        #         "stream": 'false',
-        #         "presence_penalty": 0,
-        #         "frequency_penalty": 0,
-        #         "user": "string",
-        #         "repetition_penalty": 1,
-        #         "renew_session": 'false',
-        #         "ignore_eos": 'false'
-        # })
-        # headers = {
-        #     'Content-Type': 'application/json',
-        #     'Accept': 'application/json'
-        # }
-        # # 通过 POST 访问获取账户对应的 access_token
-        # response = requests.request("POST", url, headers=headers, data=payload)
-        # js = json.loads(response.text)
         return response
-        # return js["choices"]["message"]
 
     @property
     def _llm_type(self) -> str:
