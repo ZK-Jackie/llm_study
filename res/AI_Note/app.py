@@ -29,12 +29,18 @@ def load_qa_chain():
     )
 
     # 定义一个 Prompt Template
-    template = """以下上下文是用户的笔记，你要用这些上下文来回答最后的问题。
-    如果你不知道答案，或不能从这些上下文中获得符合问题的答案，就说你不知道，
-    不要试图编造答案。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。
+    template = """
+    请你依次执行以下步骤：
+    ① 以下是用户的笔记，你要用这些用户的笔记回答用户提出的问题。如果你不知道答案，
+    或不能从这些用户的笔记中获得符合问题的答案，就说你不知道，不要试图编造答案。
+    尽量使答案简明扼要。请你附上回答的来源原文，以保证回答的正确性。
     {context}
     问题: {question}
-    有用的回答:"""
+    有用的回答:
+    ② 基于提供的用户的笔记，反思回答中有没有不正确或不是基于上下文得到的内容，
+    如果有，修改回答。
+    ③ 检查你的回答中有没有称用户为“您”，如果没有，修改答案。
+    """
 
     # 创建一个 PromptTemplate 对象
     qa_chain_prompt = PromptTemplate(
@@ -49,7 +55,7 @@ def load_qa_chain():
         return_source_documents=True,
         chain_type_kwargs={"prompt": qa_chain_prompt}
     )
-    print(qa_chain)
+
     return qa_chain
 
 
