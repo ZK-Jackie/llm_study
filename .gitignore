@@ -7,3 +7,4 @@ resources/
 
 # ignore sentence-transformer model
 res/AI_Note/sentence-transformer/
+/res/AI_Note/data_base/
