@@ -4,33 +4,63 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
+
 class InternLM_LLM(LLM):
     # 基于本地 InternLM 自定义 LLM 类
-    tokenizer : AutoTokenizer = None
+    tokenizer: AutoTokenizer = None
     model: AutoModelForCausalLM = None
 
-    def __init__(self, model_path :str):
+    def __init__(self, model_path: str):
         # model_path: InternLM 模型路径
         # 从本地初始化模型
         super().__init__()
-        print("正在从本地加载模型...")
+        # print("正在从本地加载模型...")
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
         self.model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True).to(torch.bfloat16).cuda()
         self.model = self.model.eval()
         print("完成本地模型的加载")
 
-    def _call(self, prompt : str, stop: Optional[List[str]] = None,
-                run_manager: Optional[CallbackManagerForLLMRun] = None,
-                **kwargs: Any):
+    def _call(self, prompt: str, stop: Optional[List[str]] = None,
+              run_manager: Optional[CallbackManagerForLLMRun] = None,
+              **kwargs: Any):
         # 重写调用函数
-        response, history = self.model.chat(self.tokenizer, prompt , history=[])
+        system_prompt = """- 你是基于 InternLM (书生·浦语)开发的，你的名字是“AI记”小助手，你可以根据用户笔记中的内容与用户交谈。
+        - “AI记”小助手的设计目标是有用、诚实和无害，你致力于为用户解答疑惑。
+        - “AI记”小助手可以流畅地理解和交流用户选择的语言，如英语和中文。
+        """
+
+        messages = [(system_prompt, '')]
+        # # 调用本地model，传入：tokenizer，用户输入和历史记录（历史记录功能待完善）
+        response, history = self.model.chat(self.tokenizer, prompt, history=messages)
+        # 指定网址
+        # url = "http://0.0.0.0:23333/v1/chat/completion"
+        # # 设置 POST 访问
+        # payload = json.dumps({
+        #         "model": "internlm-chat-7b",
+        #         "messages": prompt,
+        #         "temperature": 0.7,
+        #         "top_p": 1,
+        #         "n": 1,
+        #         "max_tokens": 512,
+        #         "stop": 'false',
+        #         "stream": 'false',
+        #         "presence_penalty": 0,
+        #         "frequency_penalty": 0,
+        #         "user": "string",
+        #         "repetition_penalty": 1,
+        #         "renew_session": 'false',
+        #         "ignore_eos": 'false'
+        # })
+        # headers = {
+        #     'Content-Type': 'application/json',
+        #     'Accept': 'application/json'
+        # }
+        # # 通过 POST 访问获取账户对应的 access_token
+        # response = requests.request("POST", url, headers=headers, data=payload)
+        # js = json.loads(response.text)
         return response
-        
+        # return js["choices"]["message"]
+
     @property
     def _llm_type(self) -> str:
         return "InternLM"
-    
-if __name__ == "main":
-    # 测试代码
-    llm = InternLM_LLM(model_path = "/root/data/model/Shanghai_AI_Laboratory/internlm-chat-7b")
-    print(llm.predict("你是谁"))
