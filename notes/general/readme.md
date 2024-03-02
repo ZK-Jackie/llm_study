@@ -12,17 +12,19 @@
 
 # 课程学习线路
 
-## 总路线——实操+阅读 -> Agent开发
+## 总路线——实操+阅读 -> Agent开发（序号不为先后顺序）
 
 ### 1. [实操1](https://datawhalechina.github.io/llm-universe/#/)
 
 实操 + prompt engineering
 
-进度：[■■■■■■□□□□] 6/10
+进度：[■■■■■■■■■■] 10/10 ✅
 
 ### 2. [实操2](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
 
-进度：[□□□□□□□□□□] 0/10
+量化高效部署 + 粗略阅读
+
+进度：[□□□□□□□□□□] 0/10 
 
 ### 3. [Book2](https://aigc.phodal.com/)
 
