@@ -15,7 +15,6 @@ import pandas as pd
 import vector_db_utils as db
 
 
-
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
