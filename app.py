@@ -78,13 +78,20 @@ class Model_center:
 
     def __init__(self):
         # 下载sentence-transformer模型
-        # 设置环境变量
-        os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-        # 下载模型
-        os.system(
-            'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+        if not os.path.exists('sentence-transformer'):
+            # 设置环境变量
+            os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+            # 下载模型
+            os.system(
+                'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+        # 准备NLTK
+        if not os.path.exists('/root/nltk_data'):
+            os.system('cd /root && git clone https://gitee.com/yzy0612/nltk_data.git  --branch gh-pages && cd nltk_data'
+                    '&& mv packages/*  ./ && cd tokenizers && unzip punkt.zip && cd ../taggers && unzip '
+                    'averaged_perceptron_tagger.zip')
         # 下载 internlm-chat-7b
-        snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
+        if not os.path.exists('Shanghai_AI_Laboratory/internlm-chat-7b'):
+            snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
                           , cache_dir='./', revision='v1.0.3')
         # 构造函数，加载检索问答链
         self.qa_chain = load_qa_chain()
