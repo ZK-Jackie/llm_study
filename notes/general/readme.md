@@ -1,36 +1,38 @@
 # 课程资源目录
 
-- Book1+实操1+prompt设计: [动手学大模型应用开发 (datawhalechina.github.io)](https://datawhalechina.github.io/llm-universe/#/)
-- Book2: [前言 - 构筑大语言模型应用：应用开发与架构设计 (phodal.com)](https://aigc.phodal.com/)
-- 实操+Book3: [面向开发者的LLM入门教程 (datawhalechina.github.io)](https://datawhalechina.github.io/prompt-engineering-for-developers/#/)
+- prompt+RAG [动手学大模型应用开发 (datawhalechina.github.io)](https://datawhalechina.github.io/llm-universe/#/)
+- prompt+架构+微调 [前言 - 构筑大语言模型应用：应用开发与架构设计 (phodal.com)](https://aigc.phodal.com/)
+- prompt engineering [面向开发者的LLM入门教程 (datawhalechina.github.io)](https://datawhalechina.github.io/prompt-engineering-for-developers/#/)
+- 微调 [落地领域大模型应知必会 (1) ：主要微调方法总览 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/640632068)
+- 微调 [通俗解读大模型微调Fine-Tuning - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/671786293)
 - Agent开发: [crewAI](https://github.com/joaomdmoura/crewAI)
-- 拓展阅读: [LangChain，大放异彩的一年！ (qq.com)](https://mp.weixin.qq.com/s/Fzn00HdgKsEQaNwT91bY1A)
-- 拓展阅读: https://pdos.csail.mit.edu/
-- 拓展阅读: [落地领域大模型应知必会 (1) ：主要微调方法总览 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/640632068)
-- 实操2: [如何构建自己的大模型（万字长文） (zhihu.com)](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
-- 拓展阅读: [通俗解读大模型微调Fine-Tuning - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/671786293)
+- 拓展阅读 [LangChain，大放异彩的一年！ (qq.com)](https://mp.weixin.qq.com/s/Fzn00HdgKsEQaNwT91bY1A)
+- 拓展阅读 https://pdos.csail.mit.edu/
+- 拓展阅读 [如何构建自己的大模型（万字长文） (zhihu.com)](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
 
-# 课程学习线路
+# 学习进度
 
-## 总路线——实操+阅读 -> Agent开发（序号不为先后顺序）
+## 实操+阅读+Agent开发
 
-### 1. [实操1](https://datawhalechina.github.io/llm-universe/#/)
+### 1. [动手学大模型应用开发](https://datawhalechina.github.io/llm-universe/#/)
 
-实操 + prompt engineering
+实操 + prompt理论 + RAG + prompt engineering理论和部分实践
 
 进度：[■■■■■■■■■■] 10/10 ✅
 
-### 2. [实操2](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
+### 2. [落地领域大模型应知必会 (1)](https://zhuanlan.zhihu.com/p/640632068)
 
-量化高效部署 + 粗略阅读
+微调
 
 进度：[□□□□□□□□□□] 0/10 
 
-### 3. [Book2](https://aigc.phodal.com/)
+### 3. [通俗解读大模型微调Fine-Tuning](https://zhuanlan.zhihu.com/p/671786293)
+
+微调
 
 进度：[□□□□□□□□□□] 0/10
 
-### 4. [Book3](https://datawhalechina.github.io/prompt-engineering-for-developers/#/)
+### 4. [如何构建自己的大模型](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
 
 进度：[□□□□□□□□□□] 0/10
 
