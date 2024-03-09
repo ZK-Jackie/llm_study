@@ -9,3 +9,5 @@ resources/
 res/AI_Note/sentence-transformer/
 res/AI_Note/data_base/
 res/RecipeMaster_RAG/data_base/
+/res/RecipeMaster_RAG/data_base/
+/res/RecipeMaster_hf_adapter/
