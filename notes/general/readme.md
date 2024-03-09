@@ -1,4 +1,4 @@
-# 课程资源目录
+# 课程资源
 
 - prompt+RAG [动手学大模型应用开发 (datawhalechina.github.io)](https://datawhalechina.github.io/llm-universe/#/)
 - prompt+架构+微调 [前言 - 构筑大语言模型应用：应用开发与架构设计 (phodal.com)](https://aigc.phodal.com/)
