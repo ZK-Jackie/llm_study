@@ -7,9 +7,10 @@
 - 微调 [通俗解读大模型微调Fine-Tuning - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/671786293)
 - Agent开发: [crewAI](https://github.com/joaomdmoura/crewAI)
 - 拓展阅读 [LangChain，大放异彩的一年！ (qq.com)](https://mp.weixin.qq.com/s/Fzn00HdgKsEQaNwT91bY1A)
-- 拓展阅读 https://pdos.csail.mit.edu/
+- 拓展阅读 [RAG分块策略的五个level](https://zhuanlan.zhihu.com/p/679570691)
+- 拓展阅读 [Langchain使用之 - 文本分割Splitter](https://blog.csdn.net/qiaotl/article/details/132715316)
 - 拓展阅读 [如何构建自己的大模型（万字长文） (zhihu.com)](https://www.zhihu.com/tardis/zm/art/673308333?source_id=1005)
-
+- 拓展阅读 https://pdos.csail.mit.edu/
 # 学习进度
 
 ## 实操+阅读+Agent开发
@@ -36,7 +37,7 @@
 
 进度：[□□□□□□□□□□] 0/10
 
-### 5. [CrewAI Agent开发](https://github.com/joaomdmoura/crewAI)
+### 5. [CrewAI开发](https://github.com/joaomdmoura/crewAI)
 
 进度：[□□□□□□□□□□] 0/10
 

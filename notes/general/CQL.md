@@ -196,3 +196,13 @@ Putty 或 Xshell：Telnet、ssh和rlogin客户端（win10及以上可用powershe
 
 WinSCP：远程ssh文件传输工具（win10及以上可用powershell）
 
+#### 拓展资料
+- [中文开放知识图谱网](http://openkg.cn/datasets-type/)
+- [关系抽取公开数据集整理合集 - zhihu](https://zhuanlan.zhihu.com/p/581554247)
+- [rdf转换器 - github](https://github.com/jievince/rdf-converter?tab=readme-ov-file)
+- [使用 LLM，将任何文本语料库转化为知识图谱 - zhihu](https://zhuanlan.zhihu.com/p/672098386)
+- [LLM+KG示例项目](https://github.com/mcks2000/llm_notebooks/blob/main/ollama_knowlage_graph/helpers/prompts.py)
+
+#### 数据集附录
+- [NLP Knowledge Graph Data(Excel) - kaggle](https://www.kaggle.com/datasets/vishnunkumar/nlp-knowledge-graph-data)
+- 
