@@ -42,7 +42,7 @@ class InternLM(LLM):
             "   {\n"
             '       "node_1": "A concept from extracted ontology",\n'
             '       "node_2": "A related concept from extracted ontology",\n'
-            '       "edge": "relationship between the two concepts, node_1 and node_2 in one or two sentences"\n'
+            '       "edge": "relationship between the two concepts, node_1 and node_2 in one or two sentences or a word"\n'
             "   }, {...}\n"
             "]"
         """
@@ -55,3 +55,5 @@ class InternLM(LLM):
     @property
     def _llm_type(self) -> str:
         return "InternLM"
+
+
