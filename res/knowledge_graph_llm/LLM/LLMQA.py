@@ -2,7 +2,9 @@ from modelscope import snapshot_download
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from .InternLM import InternLM
+from .InternLM import ChatGLM
 import os
+
 
 class InternLMQA:
     """
@@ -14,21 +16,21 @@ class InternLMQA:
         # 下载sentence-transformer模型
         if not os.path.exists('sentence-transformer'):
             print("sentensce-transfomer不存在，正在下载..")
-        # 设置环境变量
+            # 设置环境变量
             os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-        # 下载模型
+            # 下载模型
             os.system(
-            'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
+                'huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir sentence-transformer')
         # 准备NLTK
         if not os.path.exists('/root/nltk_data'):
             os.system('cd /root && git clone https://gitee.com/yzy0612/nltk_data.git  --branch gh-pages && cd nltk_data'
-                    '&& mv packages/*  ./ && cd tokenizers && unzip punkt.zip && cd ../taggers && unzip '
-                    'averaged_perceptron_tagger.zip')
+                      '&& mv packages/*  ./ && cd tokenizers && unzip punkt.zip && cd ../taggers && unzip '
+                      'averaged_perceptron_tagger.zip')
         # 下载 internlm-chat-20b
         if not os.path.exists('/root/Shanghai_AI_Laboratory/internlm-chat-7b'):
             print("/root/Shanghai_AI_Laboratory/internlm-chat-7b不存在，正在下载..")
             snapshot_download('Shanghai_AI_Laboratory/internlm-chat-7b'
-                          , cache_dir='./', revision='v1.0.3')
+                              , cache_dir='./', revision='v1.0.3')
         # 构造函数，加载问答链
         self.llm = InternLM(
             model_path='/root/share/model_repos/internlm-chat-7b'
@@ -44,7 +46,7 @@ class InternLMQA:
         )
         # 加载自定义 LLM
         llm_chain = LLMChain(
-            llm=llm, 
+            llm=llm,
             prompt=prompt
         )
         return llm_chain.run(userInput['query'])
