@@ -1,14 +1,13 @@
-from LLM.InternLMQA import InternLMQA
+from LLM.LLMQA import InternLMQA
 import gradio as gr
 import config
-
 
 # 实例化核心功能对象
 internlm = InternLMQA()
 # 创建一个 Web 界面
 block = gr.Blocks()
 with block as demo:
-    with gr.Row(equal_height=True):   
+    with gr.Row(equal_height=True):
         with gr.Column(scale=15):
             # 展示的页面标题
             gr.Markdown("""<h1><center>InternLM</center></h1>
@@ -31,7 +30,7 @@ with block as demo:
                     components=[chatbot],
                     value="Clear console"
                 )
-                
+
         # 设置按钮的点击事件。当点击时，调用上面定义的 qa_chain_self_answer 函数，并传入用户的消息和聊天历史记录，然后更新文本框和聊天机器人组件。
         db_wo_his_btn.click(
             internlm.qa_chain_self_answer,

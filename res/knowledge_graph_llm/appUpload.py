@@ -1,4 +1,4 @@
-from LLM.InternLMQA import InternLMQA
+from LLM.LLMQA import InternLMQA
 from GraphUtils.TextProcess import FileReader
 import gradio as gr
 import config
