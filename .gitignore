@@ -17,3 +17,5 @@ res/RecipeMaster_RAG/data_base/
 /res/knowledge_graph_llm/TrainingUtils/output_dir/
 /res/knowledge_graph_llm/TrainingUtils/raw_dir/
 /res/knowledge_graph_llm/TrainingUtils/xtuner_train/
+/res/knowledge_graph_llm/TrainingUtils/hf_train/
+/res/knowledge_graph_llm/TrainingUtils/T2KG/
