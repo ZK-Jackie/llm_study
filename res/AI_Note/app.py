@@ -1,7 +1,7 @@
 from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 import os
-from LLM import InternLM_LLM
+from ChatGLM import ChatGLM3
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import gradio as gr
@@ -12,10 +12,10 @@ import vector_db_utils as db
 def load_qa_chain():
     # 加载问答链
     # 定义 Embeddings，加载词向量模型
-    embeddings = HuggingFaceEmbeddings(model_name="/root/data/model/sentence-transformer")
+    embeddings = HuggingFaceEmbeddings(model_name="/gemini/code/sentence-transformer")
 
     # 向量数据库持久化路径，加载数据库对象
-    persist_directory = '/root/data/demo/data_base/vector_db/chroma'
+    persist_directory = '/gemini/code/data_base/vector_db/chroma'
 
     # 加载数据库
     vectordb = Chroma(
@@ -24,26 +24,25 @@ def load_qa_chain():
     )
 
     # 加载自定义 LLM
-    llm = InternLM_LLM(
-        model_path="/root/share/model_repos/internlm2-chat-7b"
+    llm = ChatGLM3(
+        model_path="/gemini/pretrain"
     )
 
     # 定义一个 Prompt Template
     template = """
     '''{question}'''，这是一段话，请你依次执行以下步骤：
-    ① 前面用三个单引号包围起来的内容是我的话，请判断我说的话是不是对知识提出的问题。
-    如果是，请做下一个步骤；如果不是，请用你自己的话回答，并跳过下面的所有步骤。
-    不要回答你的思考过程。不要回答你的判断结果。
-    ② 以下是我的笔记，你要用我的笔记回答前面用三个单引号包围起来的内容。
-    如果你不知道答案，或不能从这些我的笔记中获得符合问题的答案，
-    就说你不知道，不要试图编造答案。尽量使回答简明扼要。
-    如果回答比较长，请酌情进行分段，以提高答案的阅读体验。
-    如果回答有几点，你应该分点标号回答，让答案清晰具体。
-    回答时不要回答你的思考过程，你只回答有用的内容并附上原文的文件名。
+    ① 前面用三个单引号包围起来的内容是我的话，请判断我说的话是不是对知识提出的问题；
+    如果是，请做下一个步骤；如果不是，请用你自己的话回答，并跳过下面的所有步骤；
+    不要回答你的思考过程；不要回答你的判断结果。
+    ② 以下是我的笔记，你要用我的笔记回答前面用三个单引号包围起来的内容；
+    如果你不知道答案，或不能从这些我的笔记中获得符合问题的答案，就说你不知道，不要试图编造答案。尽量使回答简明扼要；
+    如果回答比较长，请酌情进行分段，以提高答案的阅读体验；
+    如果回答有几点，你应该分点标号回答，让答案清晰具体；
+    回答时不要回答你的思考过程，你只回答有用的内容并附上原文的文件名；
+    我的笔记：
     {context}
+    ③ 基于我的笔记，反思回答中有没有不正确或不是基于我的笔记得到的内容，如果有，修改回答，删去不正确或不是基于我的笔记得到的内容。
     有用的回答:
-    ③ 基于我的笔记，反思回答中有没有不正确或不是基于我的笔记得到的内容，
-    如果有，修改回答，删去不正确或不是基于我的笔记得到的内容。
     """
 
     # 创建一个 PromptTemplate 对象
@@ -130,7 +129,7 @@ with block as demo:
     with gr.Row(equal_height=True):
         with gr.Column(scale=15):
             # 展示的页面标题
-            gr.Markdown("""<h1><center>AI记(beta)</center></h1>
+            gr.Markdown("""<h1><center>AI记_ChatGLM3(beta)</center></h1>
                 <center>个人知识库记录助手</center>
                 <center>测试应用，文件上传量仅限一条</center>
                 """)
