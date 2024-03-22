@@ -38,7 +38,7 @@
   - 缺点：
     - 训练的成本会比较高（微调参数约等于预训练参数）
     - 灾难性遗忘 Catastrophic Forgetting（模型的某一领域拔高了，另一领域可能会下降）
-- PEFT(Parameter-Efficient Fine-Tuning)【主流方案】
+- 轻量微调（高效微调）PEFT(Parameter-Efficient Fine-Tuning)【主流方案】
   - 解决FFT的问题
 
 从训练数据的来源、以及训练的方法的角度看——
@@ -46,6 +46,8 @@
 - 监督式微调SFT(Supervised Fine-Tuning)
 - 基于人类反馈的强化学习微调RLHF(Reinforcement Learning with Human Feedback)
 - 基于AI反馈的强化学习微调RLAIF(Reinforcement Learning with AI Feedback)
+
+下面将只对当前热门常用的方案进行简要介绍：
 
 ### 1. PEFT微调方案
 
@@ -63,8 +65,15 @@
 
 #### （3）LoRA
 
-
+基本原理：线性代数
 
 #### （4）QLoRA
 
+基本原理：线性代数
 
+
+### 2. RLHF
+
+基本原理：通过让人对不同的模型输出进行排序或评分来收集人类反馈，从而提供奖励信号（reward signal）。收集到的奖励标签（reward labels）可以用来训练奖励模型（reward model），进而反过来指导LLM（Language Model）适应人类的喜好。
+
+奖励模型本身是通过监督学习（supervised learning）来学习的（通常使用预训练的LLM作为基础模型）。
