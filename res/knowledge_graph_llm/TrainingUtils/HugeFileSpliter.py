@@ -38,4 +38,4 @@ def split_json(file_path, max_size):
 
 
 # 调用函数，将大的JSON文件拆分为多个小的JSON文件
-split_json('xtuner_train/t2kg_xtuner3.json', 10 * 1024 * 1024)  # 10MB
+split_json('hf_train\\upload\\t2kg_hf_train.json', 50 * 1024 * 1024)  # 50MB

@@ -6,7 +6,7 @@ import config
 from tqdm import tqdm
 
 
-def convert_format(input_jsonl, output_jsonl):
+def convert_format(input_jsonl, output_jsonl, format='hf'):
     with (jsonlines.open(input_jsonl, mode='r') as f_in,
           jsonlines.open(output_jsonl, mode='w') as f_out):
         last_sentence = None
@@ -20,28 +20,65 @@ def convert_format(input_jsonl, output_jsonl):
             if line['sentence'] != last_sentence:
                 # 把上一个对话写入文件
                 if conversation is not None:
-                    conversation['conversation'][0]['input'] = '```' + conversation['conversation'][0]['input'] + '```'
-                    conversation['conversation'][0]['output'] = json.dumps(conversation['conversation'][0]['output'],
-                                                                           ensure_ascii=False, indent=4)
+                    conversation['conversations'][1]['content'] = '```' + conversation['conversations'][1]['content'] + '```'
+                    conversation['conversations'][2]['content'] = json.dumps(conversation['conversations'][2]['content'], ensure_ascii=False, indent=4)
                     f_out.write(conversation)
                 # 开始新的对话
                 conversation = {
-                    'conversation': [
+                    'conversations': [
                         {
-                            'system': config.SYS_PROMPT,
-                            'input': line['sentence'],
-                            'output': []
+                            "role": "system",
+                            "content": config.SYS_PROMPT
+                        },
+                        {
+                            "role": "user",
+                            "content": line['sentence']
+                        },
+                        {
+                            "role": "assistant",
+                            "content": []
                         }
                     ]
                 }
             # 当前对话跟上一个对话相同，则追加output中的内容
-            conversation['conversation'][0]['output'].append(json.dumps({
+            conversation['conversations'][2]['content'].append(json.dumps({
                 'node_1': sentence_b_parts[0],
                 'edge': sentence_b_parts[1],
                 'node_2': sentence_b_parts[2] if len(sentence_b_parts) > 2 else ''
             }, ensure_ascii=False, indent=4))
             # 更新上一个对话的记录
             last_sentence = line['sentence']
+
+        # for line in tqdm(f_in, desc="Processing lines"):
+        #     # 对数据行的sentence_b做切割
+        #     sentence_b_parts = line['sentence_b'].split(',')
+        #
+        #     # 当前是新的一轮对话（跟上一个对话不同），也代表重复的对话结束了，则——
+        #     if line['sentence'] != last_sentence:
+        #         # 把上一个对话写入文件
+        #         if conversation is not None:
+        #             conversation['conversation'][0]['input'] = '```' + conversation['conversation'][0]['input'] + '```'
+        #             conversation['conversation'][0]['output'] = json.dumps(conversation['conversation'][0]['output'],
+        #                                                                    ensure_ascii=False, indent=4)
+        #             f_out.write(conversation)
+        #         # 开始新的对话
+        #         conversation = {
+        #             'conversation': [
+        #                 {
+        #                     'system': config.SYS_PROMPT,
+        #                     'input': line['sentence'],
+        #                     'output': []
+        #                 }
+        #             ]
+        #         }
+        #     # 当前对话跟上一个对话相同，则追加output中的内容
+        #     conversation['conversation'][0]['output'].append(json.dumps({
+        #         'node_1': sentence_b_parts[0],
+        #         'edge': sentence_b_parts[1],
+        #         'node_2': sentence_b_parts[2] if len(sentence_b_parts) > 2 else ''
+        #     }, ensure_ascii=False, indent=4))
+        #     # 更新上一个对话的记录
+        #     last_sentence = line['sentence']
         # 如果文件为空，则写入 None
         if conversation is not None:
             f_out.write(conversation)

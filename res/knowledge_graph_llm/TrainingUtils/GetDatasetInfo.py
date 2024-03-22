@@ -1,5 +1,6 @@
 import json
 
+
 def process_json_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -8,7 +9,8 @@ def process_json_file(file_path):
     max_token_count = max(sum(len(str(key)) + len(str(value)) for key, value in element.items()) for element in data)
 
     print(f"Number of elements: {element_count}")
-    print(f"Max token count: {max_token_count}")
+    print(f"Max total count: {max_token_count}")
+
 
 # 使用函数
-process_json_file("xtuner_train/kg_xtuner.json")
+process_json_file("xtuner_train/upload/t2kg_xtuner2.json")
