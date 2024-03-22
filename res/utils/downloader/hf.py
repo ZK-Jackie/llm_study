@@ -4,4 +4,4 @@ import os
 os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 
 # 下载模型
-os.system('huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir /root/data/model/sentence-transformer')
+os.system('huggingface-cli download --resume-download THUDM/chatglm3-6b --local-dir /root/THUDM/chatglm3-6b')
